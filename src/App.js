@@ -1,25 +1,41 @@
-import logo from './logo.svg';
-import './App.css';
+import { useReducer } from 'react';
+import "./App.css"
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import {changeName, changeWish} from './action/action'
+
+const initialState = {
+  name: "Ishrat",
+  wish: "coding"
+}
+
+const reducer = (state=initialState, action) => {
+  switch(action.type){
+      case "CHANGE_NAME":
+          return {
+              ...state,
+              name: action.payload
+          }
+      case "ADD_WISH":
+          return {
+              ...state,
+              wish: action.payload
+          }
+      default:
+          return state
+  }
+}
+
+const App =()=> {
+  const [state, dispatch] = useReducer(reducer, initialState)
+    return (
+      <div className="App">
+        <h1>useReducer</h1>
+        Name: {state.name} <br/>
+        Wishes: {state.wish}<br/>
+        <button onClick={() => dispatch(changeName)}>Change Name</button>
+        <button onClick={()=> dispatch(changeWish)}>Change Wish</button>
+      </div>
+    )
 }
 
 export default App;
